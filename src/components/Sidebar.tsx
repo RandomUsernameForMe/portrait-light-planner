@@ -6,9 +6,17 @@ import { LightControls } from './LightControls'
 
 const LIGHT_TYPES: LightType[] = ['softbox', 'reflector', 'beauty_dish', 'bounce', 'window']
 
+const HEAD_Y = 1.5 // výška hlavy subjektu
+
 export function Sidebar() {
-  const { lights, selectedId, selectLight, addLight } = useSceneStore()
+  const { lights, selectedId, selectLight, addLight, viewMode } = useSceneStore()
+  const isTopDown = viewMode === 'topdown'
   const [addOpen, setAddOpen] = useState(false)
+
+  const handleAdd = (type: LightType) => {
+    addLight(type, isTopDown ? HEAD_Y : undefined)
+    setAddOpen(false)
+  }
 
   return (
     <div className="w-64 flex-shrink-0 bg-gray-900 border-l border-gray-700 flex flex-col overflow-hidden">
@@ -21,12 +29,18 @@ export function Sidebar() {
           + Přidat světlo
         </button>
 
+        {isTopDown && (
+          <div className="mt-1.5 text-xs text-blue-400 text-center">
+            Top-down: světlo se přidá ve výšce hlavy
+          </div>
+        )}
+
         {addOpen && (
           <div className="mt-2 flex flex-col gap-1">
             {LIGHT_TYPES.map((type) => (
               <button
                 key={type}
-                onClick={() => { addLight(type); setAddOpen(false) }}
+                onClick={() => handleAdd(type)}
                 className="flex items-center gap-2 py-1.5 px-3 bg-gray-800 hover:bg-gray-700 text-gray-200 text-sm rounded transition-colors text-left"
               >
                 <span>{LIGHT_ICONS[type]}</span>
