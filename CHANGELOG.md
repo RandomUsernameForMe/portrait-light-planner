@@ -1,3 +1,5 @@
+## [2026-10-12] - README: popis projektu, stack a spuštění (EN + CZ)
+
 ## [2026-03-08] - Inicializace projektu, MVP implementace
 
 Scaffold Vite + React TS projektu, instalace závislostí (@react-three/fiber, drei, zustand, tailwind).
